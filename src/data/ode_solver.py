@@ -49,7 +49,7 @@ def initialize_positions():
 
 
 # Initialize the velocities of the three bodies. Based on Li, Liao (2017)
-def initialize_velocities(v1, v2):
+def initialize_velocities():
     v1 = random.uniform(0, 1)
     v2 = random.uniform(0, 1)
 
