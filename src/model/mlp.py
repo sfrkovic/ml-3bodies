@@ -44,7 +44,7 @@ def build_model():
     return model
 
 
-def train_model(model, train_input, train_target, test_input, test_target, use_tensorboard=True, save_weights=False):
+def train_model(model, train_input, train_target, test_input, test_target, use_tensorboard, save_weights):
     early_stopping_callback = tf.keras.callbacks.EarlyStopping(
         monitor='val_loss',
         mode='min',
@@ -56,7 +56,7 @@ def train_model(model, train_input, train_target, test_input, test_target, use_t
         callbacks_list.append(tensorboard_callback)
     if save_weights:
         model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
-            filepath="models/",
+            filepath=os.getcwd() + "/model/weights/",
             save_weights_only=True,
             monitor='val_loss',
             mode='min',
@@ -86,7 +86,7 @@ def k_fold_evaluate_model(input_data, target_data, k=2):
         test_target = target_data[test_index]
 
         model = build_model()
-        train_model(model, train_input, train_target, test_input, test_target)
+        train_model(model, train_input, train_target, test_input, test_target, use_tensorboard=True, save_weights=False)
 
     print("Finished k-fold evaluation")
 
@@ -95,7 +95,7 @@ def predict_on_model(input_data, target_data, timesteps=10, num_simulations=20):
     print("Rebuilding and training model on the full dataset for prediction")
 
     model = build_model()
-    model = train_model(model, input_data, target_data, input_data, target_data)
+    model = train_model(model, input_data, target_data, input_data, target_data, use_tensorboard=False, save_weights=True)
 
     print("Starting prediction on model")
 
