@@ -14,7 +14,7 @@ LOCKBOX_SIZE = 20
 # Maximum distance of a body from the centre in a simulation.
 LIMIT = 5
 
-# Time step size
+# Timestep size
 STEP_SIZE = 0.001
 
 # Total time
