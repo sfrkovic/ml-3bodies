@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-import utils
+import util
 
 # Maximum distance of a body from the centre in a simulation.
 LIMIT = 5
@@ -36,7 +36,7 @@ def clear_data_directory():
     path = os.path.join(os.getcwd() + "/data")
     for d in os.listdir(path):
         d_path = os.path.join(path, d)
-        utils.clear_directory(d_path)
+        util.clear_directory(d_path)
 
 
 # Initialize the positions of the three bodies. Based on Li, Liao (2017).

@@ -5,7 +5,7 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import KFold
 
-import utils
+import util
 
 
 # Clears the '/model' directory.
@@ -15,7 +15,7 @@ def clear_model_directory():
     path = os.path.join(os.getcwd() + "/model")
     for d in os.listdir(path):
         d_path = os.path.join(path, d)
-        utils.clear_directory(d_path)
+        util.clear_directory(d_path)
 
 
 # Reads in the input and target data.
