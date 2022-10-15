@@ -1,40 +1,47 @@
 import os
-import numpy as np
 import random
-import pandas as pd
+import sys
+
 import matplotlib
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
-# Number of simulations in the dataset.
-NUM_SIMULATIONS = 100
-
-# Number of start states for the lockbox
-LOCKBOX_SIZE = 20
+sys.path.insert(0, os.getcwd() + "/src")
+import util
 
 # Maximum distance of a body from the centre in a simulation.
 LIMIT = 5
 
-# Timestep size
+# Timestep size.
 STEP_SIZE = 0.001
 
-# Total time
+# Total time.
 TOTAL_TIME = 10
 
-# Time vector
+# Time vector.
 STEPS = int(TOTAL_TIME / STEP_SIZE)
 
-# Body masses
+# Body masses.
 M1 = 1
 M2 = 1
 M3 = 1
 M = np.array([M1, M2, M3])
 
-# Newton's gravitational constant
+# Newton's gravitational constant.
 G = 1
 
 
-# Initialize the positions of the three bodies. Based on Li, Liao (2017)
+# Clears the '/data' directory.
+def clear_data_directory():
+    print("Clearing '/data' directory")
+    path = os.path.join(os.getcwd() + "/data")
+    for d in os.listdir(path):
+        d_path = os.path.join(path, d)
+        util.clear_directory(d_path)
 
+
+# Initialize the positions of the three bodies. Based on Li, Liao (2017).
 def initialize_positions():
     x10 = -1
     y10 = 0
@@ -48,7 +55,7 @@ def initialize_positions():
     return np.array([[x10, y10], [x20, y20], [x30, y30]])
 
 
-# Initialize the velocities of the three bodies. Based on Li, Liao (2017)
+# Initialize the velocities of the three bodies. Based on Li, Liao (2017).
 def initialize_velocities():
     v1 = random.uniform(0, 1)
     v2 = random.uniform(0, 1)
@@ -111,7 +118,7 @@ def compute_acceleration(x, y):
 
 
 # Calculate the simulation of the three bodies.
-def verlet_ode_solver(x, y, vx, vy, i):
+def verlet_ode_solver(x, y, vx, vy, i, save_files=True):
     for step in range(STEPS - 1):
         ax_tot, ay_tot = compute_acceleration(x[step], y[step])
         x[step + 1] = x[step] + STEP_SIZE * vx[step] + (1 / 2) * (ax_tot * (STEP_SIZE ** 2))
@@ -129,14 +136,15 @@ def verlet_ode_solver(x, y, vx, vy, i):
             vy = vy[0:step]
             break
 
-    df = pd.DataFrame(np.hstack((x, y, vx, vy)))
-    df.to_csv(os.getcwd() + "/data/raw/simulation_" + str(i) + ".csv", header=False, index=False)
+    if save_files:
+        df = pd.DataFrame(np.hstack((x, y, vx, vy)))
+        df.to_csv(os.path.join(os.getcwd() + "/data/raw/simulation_" + str(i) + ".csv"), header=False, index=False)
 
     return x, y, vx, vy
 
 
 # Plots the simulation of the three bodies.
-def plot_simulation(x, y, i):
+def plot_simulation(x, y, i, save_files=True):
     # Possibly needed for compatability. Comment out if not.
     matplotlib.use('TkAgg')
 
@@ -152,50 +160,56 @@ def plot_simulation(x, y, i):
     ax.legend()
     ax.grid()
 
-    fig.savefig(os.getcwd() + "/data/plots/simulation_" + str(i) + ".png")
+    if save_files:
+        fig.savefig(os.path.join(os.getcwd() + "/data/plots/simulation_" + str(i) + ".png"))
     # plt.show()
     plt.close()
 
 
 # Normalize the simulation's position and velocity values based on the limit.
-def normalize_simulation(x, y, vx, vy, i):
-    # Normalize the positions by dividing them with the coordinate threshold limit
+def normalize_simulation(x, y, vx, vy, i, save_files=True):
+    # Normalize the positions by dividing them with the coordinate threshold limit.
     x = x / LIMIT
     y = y / LIMIT
 
-    # Normalize the velocities by dividing them with the square of the coordinate threshold limit
+    # Normalize the velocities by dividing them with the square of the coordinate threshold limit.
     vx = vx / (LIMIT ** 2)
     vy = vy / (LIMIT ** 2)
 
-    df = pd.DataFrame(np.hstack((x, y, vx, vy)))
-    df.to_csv(os.getcwd() + "/data/processed/simulation_" + str(i) + ".csv", header=False, index=False)
+    if save_files:
+        df = pd.DataFrame(np.hstack((x, y, vx, vy)))
+        df.to_csv(os.path.join(os.getcwd() + "/data/processed/simulation_" + str(i) + ".csv"), header=False, index=False)
 
     return x, y, vx, vy
 
 
-# Create, plot, and normalize a set number of simulations
-def create_simulations():
-    for i in range(NUM_SIMULATIONS):
+# Create, plot, and normalize a number of simulations.
+def create_simulations(num_simulations=100):
+    print("Creating simulations")
+    for i in range(num_simulations):
         x, y, vx, vy = initialize_arrays()
         x, y, vx, vy = verlet_ode_solver(x, y, vx, vy, i)
         plot_simulation(x, y, i)
-        x, y, vx, vy = normalize_simulation(x, y, vx, vy, i)
+        normalize_simulation(x, y, vx, vy, i)
 
 
-# Create a set number of simulation start states for the lockbox.
-def create_start_states():
+# Create and normalize a number of simulation start states for the lockbox.
+def create_start_states(num_simulations=20):
+    print("Creating start states batch")
     start_states = np.zeros((1, 12))
-    for i in range(LOCKBOX_SIZE):
+    for i in range(num_simulations):
         x, y, vx, vy = initialize_arrays()
+        x, y, vx, vy = normalize_simulation(x, y, vx, vy, i, save_files=False)
         start_state = np.hstack((x, y, vx, vy))
         start_states = np.vstack((start_states, start_state[0]))
     start_states = np.delete(start_states, 0, axis=0)
 
     df = pd.DataFrame(start_states)
-    df.to_csv(os.getcwd() + "/data/lockbox/start_states.csv", header=False, index=False)
+    df.to_csv(os.path.join(os.getcwd() + "/data/lockbox/start_states.csv"), header=False, index=False)
 
 
 def main():
+    clear_data_directory()
     create_simulations()
     create_start_states()
 
