@@ -1,13 +1,11 @@
 import os
 import random
-import sys
 
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, os.getcwd() + "/src")
 import util
 
 # Maximum distance of a body from the centre in a simulation.
