@@ -1,7 +1,5 @@
 # Solving the three-body problem with a neural network
 
-[//]: # (## Task)
-
 This is a personal revision of the team practical project done for the undergraduate course Neural Networks
    taught by Prof. Herbert Jaeger at the University of Groningen.
 The purpose of the project was to choose, design, implement, test and document 
@@ -29,14 +27,9 @@ The performance of our model was then evaluated with the k-fold cross validation
 Finally, we discussed and drew conclusions about our entire pipeline 
    and gave suggestions for improvements and extensions.
 
+## Further revisions
 
-
-[//]: # (# Table of contents)
-
-[//]: # ()
-[//]: # (1. [Introduction]&#40;#introduction&#41;)
-
-[//]: # ()
-[//]: # ()
-[//]: # (## Introduction)
-
+ - Add original and graded project reports 
+ - Write the project structure and instructions
+ - Extend ode_solver.py to calculate true simulations from initial conditions
+ - Implement visualisation.py to visualise the true and predicted simulations
