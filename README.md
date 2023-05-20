@@ -28,7 +28,7 @@ The performance of our model was then evaluated with the k-fold cross validation
 Finally, we discussed and drew conclusions about our entire pipeline 
    and gave suggestions for improvements and extensions.
 
-![Example of a simulation](data/plots/simulation_10.png)
+![Example of a simulation](data/plots/simulation_76.png)
 
 ## Further revisions
 
