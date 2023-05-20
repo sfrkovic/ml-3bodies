@@ -1,10 +1,10 @@
 # Solving the three-body problem with a neural network
 
-This is a personal revision of the team practical project done for the undergraduate course Neural Networks
+This is a personal revision of a team practical project done as a part of the undergraduate course Neural Networks
    taught by Prof. Herbert Jaeger at the University of Groningen.
 The purpose of the project was to choose, design, implement, test and document 
    an entire pipeline of a machine learning project.
-My team consisted of myself and three fellow students: Nea Isla Kauko, Remco Pals, and Andro Erdelez.
+The team consisted of myself and three fellow students: Nea Isla Kauko, Remco Pals, and Andro Erdelez.
 We chose to follow one of the Professor's project suggestions inspired by the article from Breen et al. titled
    '_Newton vs the machine: solving the chaotic three-body problem using deep neural networks_'.
 Our project was given a grade of 9.08 and was ranked as one of the three best projects in the class.
