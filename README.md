@@ -21,9 +21,7 @@ Then, the hyperparameters of our multilayer perceptron (MLP) were tuned
    by training and validation of the model on the dataset following a k-fold cross validation scheme.
 Our model was subsequently trained on the full dataset and used to recursively predict trajectories 
    many time steps ahead from the initial conditions of the test dataset.
-The performance of our model was then evaluated with the k-fold cross validation loss means and standard deviations
+Finally, the performance of our model was then evaluated with the k-fold cross validation loss means and standard deviations
    as well as trajectory plots and mean absolute errors of the predicted and true trajectories from the test dataset.
-Finally, we discussed and drew conclusions about our entire pipeline 
-   and gave suggestions for improvements and extensions.
 
 ![Example of a simulation](data/plots/simulation_76.png)
