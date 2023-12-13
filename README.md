@@ -1,6 +1,6 @@
 # The three-body problem
 
-This is a personal revision of a team practical project done as a part of the undergraduate course Neural Networks
+This is a personal revision of a team practical project done as a part of the course Neural Networks
    taught by Prof. Herbert Jaeger at the University of Groningen.
 The purpose of the project was to choose, design, implement, test and document 
    an entire pipeline of a machine learning project.
