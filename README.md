@@ -1,4 +1,4 @@
-# The three-body problem
+# The Three-Body Problem
 
 This is a personal revision of a team practical project done as a part of the course Neural Networks
    taught by Prof. Herbert Jaeger at the University of Groningen.
